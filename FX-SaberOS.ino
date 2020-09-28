@@ -1,3 +1,4 @@
+
 /*
    FX-SaberOS V1.0
 
@@ -13,6 +14,9 @@
 #include <Arduino.h>
 #include <I2Cdev.h>
 #include <MPU6050_6Axis_MotionApps20.h>
+
+
+
 #include <EEPROMex.h>
 #include <OneButton.h>
 #include <LinkedList.h>
@@ -28,9 +32,9 @@
 * DFPLAYER variables
 */
 
-#include <DFPlayerSerial.h>
-#include <DFPlayer.h>
-DFPlayer dfplayer;
+#include <SoftwareSerial.h>
+#include <DFPlayerMini_Fast.h>
+DFPlayerMini_Fast myMP3;
 
 SoundFont soundFont;
 unsigned long sndSuppress = millis();
@@ -282,7 +286,7 @@ Serial.println(configAdress);
   // load and configure the DMP
   Serial.println(F("Initializing DMP..."));
 #endif
-  devStatus = mpu.dmpInitialize_light();  // this is a ligter version of the above
+  devStatus = mpu.dmpInitialize();  // this is a ligter version of the above
 
   /*
      Those offsets are specific to each MPU6050 device.
@@ -1339,33 +1343,35 @@ void HumRelaunch() {
 }
 
 void SinglePlay_Sound(uint8_t track) {
-  dfplayer.playPhysicalTrack(track);
+  myMP3.play(track);
 }
 
 void LoopPlay_Sound(uint8_t track) {
-  dfplayer.playSingleLoop(track);
+  myMP3.loop(track);
 }
 
 void Set_Volume(int8_t volumeSet) {
-  dfplayer.setVolume(volumeSet); // Too Slow: we'll change volume on exit
+  myMP3.volume(volumeSet); // Too Slow: we'll change volume on exit
   delay(50);
 }
 
 void Set_Loop_Playback() {
-  dfplayer.setSingleLoop(true);;
+  myMP3.startRepeatPlay();;
 }
 
 void InitDFPlayer() {
-  dfplayer.setSerial(DFPLAYER_TX, DFPLAYER_RX);
+  
+  SoftwareSerial mySerial(DFPLAYER_TX, DFPLAYER_RX);
+  mySerial.begin (9600);
+  myMP3.begin(mySerial);
 }
 
 void Pause_Sound() {
-
-  dfplayer.pause();
+  myMP3.pause();
 }
 
 void Resume_Sound() {
-  dfplayer.play();
+  myMP3.resume();
 }
 
 #ifdef DEEP_SLEEP

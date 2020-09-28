@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config>
+	<SoundPrefixes>
+		<fontid>10_</fontid>
+		<powerup>01_</powerup>
+		<hum>11_</hum>
+		<swing>03_</swing>
+		<clash>05_</clash>
+		<lockup>06_</lockup>
+		<force>09_</force>
+		<blaster>07_</blaster>
+		<poweroff>02_</poweroff>
+		<spin>04_</spin>
+		<stab>08_</stab>
+		<boot>00_</boot>
+	</SoundPrefixes>
+</config>
